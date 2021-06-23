@@ -1,6 +1,7 @@
 package br.com.zupacademy.priscila.proposta
 
 import br.com.zupacademy.priscila.compartilhado.validacao.Documento
+import br.com.zupacademy.priscila.compartilhado.validacao.ValorUnico
 import java.math.BigDecimal
 import java.util.*
 import javax.persistence.*
@@ -20,6 +21,7 @@ class Proposta(
     @field:NotBlank
     @Column(nullable = false)
     @Documento
+    @field:ValorUnico(targetClass = Proposta::class , field = "documento")
     val documento: String,
 
     @field:NotBlank
