@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "br.com.zupacademy.priscila";
+option java_outer_classname = "Proposta";
+option objc_class_prefix = "HLW";
+
+package br.com.zupacademy.priscila;
+
+service PropostaService {
+  rpc criar (NovaPropostaRequest) returns (NovaPropostaResponse) {}
+}
+
+message NovaPropostaRequest {
+  string documento = 1;
+  string email = 2;
+  string nome = 3 ;
+  string endereco = 4;
+  string salario = 5;
+}
+
+message NovaPropostaResponse {
+  string id = 1;
+  string email = 2;
+
+}
