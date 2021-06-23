@@ -23,7 +23,7 @@ class CadsatraNovaPropostaEndpoint(
 
     private val logger = LoggerFactory.getLogger((this::class.java))
 
-    override fun criar(
+    override fun cadastra(
         request: NovaPropostaRequest,
         responseObserver: StreamObserver<NovaPropostaResponse>
     ) {
@@ -34,7 +34,7 @@ class CadsatraNovaPropostaEndpoint(
 
         responseObserver.onNext(
             NovaPropostaResponse.newBuilder()
-                .setId(propostaSalva.propostaId.toString())
+                .setPropostaId(propostaSalva.propostaId.toString())
                 .setEmail(propostaSalva.email)
                 .build()
         )

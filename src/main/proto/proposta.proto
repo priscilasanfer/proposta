@@ -8,7 +8,7 @@ option objc_class_prefix = "HLW";
 package br.com.zupacademy.priscila;
 
 service PropostaService {
-  rpc criar (NovaPropostaRequest) returns (NovaPropostaResponse) {}
+  rpc cadastra (NovaPropostaRequest) returns (NovaPropostaResponse) {}
 }
 
 message NovaPropostaRequest {
@@ -20,7 +20,7 @@ message NovaPropostaRequest {
 }
 
 message NovaPropostaResponse {
-  string id = 1;
+  string propostaId = 1;
   string email = 2;
 
 }
