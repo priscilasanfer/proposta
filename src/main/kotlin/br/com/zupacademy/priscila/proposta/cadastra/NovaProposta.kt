@@ -12,7 +12,6 @@ class NovaProposta(
 
     @field:NotBlank
     @field:Documento
-    @field:ValorUnico(targetClass = Proposta::class, field = "documento")
     val documento: String,
 
     @field:NotBlank

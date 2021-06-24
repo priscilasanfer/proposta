@@ -1,5 +1,6 @@
 package br.com.zupacademy.priscila.proposta.cadastra
 
+import br.com.zupacademy.priscila.compartilhado.excecao.DocumentoJaAssociadoAPropostaException
 import br.com.zupacademy.priscila.proposta.Proposta
 import br.com.zupacademy.priscila.proposta.PropostaRepository
 import io.micronaut.validation.Validated
@@ -18,6 +19,9 @@ class CadastraNovaPropostaService(
 
     @Transactional
     fun cadastra(@Valid novaProposta: NovaProposta): Proposta {
+        if(repository.existsByDocumento(novaProposta.documento))
+            throw DocumentoJaAssociadoAPropostaException("Prosta já existe com o documento '${novaProposta.documento}' informado")
+
         val proposta = novaProposta.toModel()
         repository.save(proposta)
 
