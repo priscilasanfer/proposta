@@ -1,10 +1,12 @@
 micronaut:
   application:
     name: proposta
+  server:
+    port: ${HTTP_SERVER_PORT:8085}
 
 grpc:
   server:
-    port: ${SERVER_PORT:50051}
+    port: ${GRPC_SERVER_PORT:50051}
     keep-alive-time: 1h
     max-inbound-message-size: 1024
   health:
@@ -15,6 +17,8 @@ endpoints:
     enabled: true
     sensitive: false
     details-visible: ANONYMOUS
+#  all:
+#    port: 8085 # Rodar o health check numa porta diferente
 
 datasources:
   default:
