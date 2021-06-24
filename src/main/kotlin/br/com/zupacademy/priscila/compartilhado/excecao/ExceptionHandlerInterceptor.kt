@@ -32,7 +32,7 @@ class ExceptionHandlerInterceptor : MethodInterceptor<Any, Any> {
                 is IllegalArgumentException -> Status.INVALID_ARGUMENT.withDescription(e.message)
                 is IllegalStateException -> Status.FAILED_PRECONDITION.withDescription(e.message)
                 is ConstraintViolationException -> Status.INVALID_ARGUMENT.withCause(e).withDescription(e.message)
-
+                is NumberFormatException -> Status.INVALID_ARGUMENT.withCause(e).withDescription("Salário não pode ser nulo")
                 else -> Status.UNKNOWN.withCause(e).withDescription("Um erro inesperado aconteceu")
             }
 

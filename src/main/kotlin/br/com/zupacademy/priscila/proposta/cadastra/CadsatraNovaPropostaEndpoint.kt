@@ -17,8 +17,7 @@ import javax.validation.Validator
 @Singleton
 @ErrorHandler
 class CadsatraNovaPropostaEndpoint(
-    val validator: Validator,
-    @Inject val repository: PropostaRepository
+    @Inject private val service: CadastraNovaPropostaService
 ) : PropostaServiceGrpc.PropostaServiceImplBase() {
 
     private val logger = LoggerFactory.getLogger((this::class.java))
@@ -27,10 +26,11 @@ class CadsatraNovaPropostaEndpoint(
         request: NovaPropostaRequest,
         responseObserver: StreamObserver<NovaPropostaResponse>
     ) {
-        val novaProposta = request.toModel(validator)
-        val propostaSalva = repository.save(novaProposta)
+        val novaProposta = request.toModel()
 
-        logger.info("Proposta de id ${novaProposta.propostaId} salva com sucesso")
+        val propostaSalva = service.cadastra(novaProposta)
+
+        logger.info("Proposta de id ${propostaSalva.propostaId} salva com sucesso")
 
         responseObserver.onNext(
             NovaPropostaResponse.newBuilder()
@@ -42,20 +42,3 @@ class CadsatraNovaPropostaEndpoint(
     }
 }
 
-fun NovaPropostaRequest.toModel(validator: Validator): Proposta {
-    val novaProposta = Proposta(
-        documento = this.documento,
-        email = this.email,
-        nome = this.nome,
-        endereco = this.endereco,
-        salario = BigDecimal(this.salario)
-    )
-
-    val erros = validator.validate(novaProposta)
-
-    if (erros.isNotEmpty()) {
-        throw ConstraintViolationException(erros)
-    }
-
-    return novaProposta
-}

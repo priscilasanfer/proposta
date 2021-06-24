@@ -21,7 +21,7 @@ annotation class ValorUnico(
 
     val targetClass: KClass<*>,
     val field: String,
-    val message: String = "O valor do campo {0} já está em uso.",
+    val message: String = "O dado (\${validatedValue}) já está em uso.",
     val groups: Array<KClass<Any>> = [],
     val payload: Array<KClass<Payload>> = []
   )
