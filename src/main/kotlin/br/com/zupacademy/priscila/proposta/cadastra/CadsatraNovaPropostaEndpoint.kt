@@ -4,15 +4,10 @@ import br.com.zupacademy.priscila.NovaPropostaRequest
 import br.com.zupacademy.priscila.NovaPropostaResponse
 import br.com.zupacademy.priscila.PropostaServiceGrpc
 import br.com.zupacademy.priscila.compartilhado.excecao.ErrorHandler
-import br.com.zupacademy.priscila.proposta.Proposta
-import br.com.zupacademy.priscila.proposta.PropostaRepository
 import io.grpc.stub.StreamObserver
 import org.slf4j.LoggerFactory
-import java.math.BigDecimal
 import javax.inject.Inject
 import javax.inject.Singleton
-import javax.validation.ConstraintViolationException
-import javax.validation.Validator
 
 @Singleton
 @ErrorHandler
