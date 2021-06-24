@@ -26,11 +26,18 @@ class Proposta(
     val endereco: String,
 
     @Column(nullable = false)
-    val salario: BigDecimal
+    val salario: BigDecimal,
+
+    @field:Enumerated(EnumType.STRING)
+    var status: Status = Status.NAO_ANALISADO
 ) {
     @Id
     @GeneratedValue
     val id: Long? = null
 
     val propostaId: UUID = UUID.randomUUID()
+
+    fun atualizaStatus(status: Status){
+        this.status = status
+    }
 }
