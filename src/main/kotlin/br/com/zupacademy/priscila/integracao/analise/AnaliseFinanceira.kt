@@ -27,6 +27,24 @@ data class SolicitaAnaliseFinanceiraRequest(
             )
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is SolicitaAnaliseFinanceiraRequest) return false
+
+        if (documento != other.documento) return false
+        if (nome != other.nome) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = documento.hashCode()
+        result = 31 * result + nome.hashCode()
+        return result
+    }
+
+
 }
 
 data class SolicitaAnaliseFinanceiraResponse(

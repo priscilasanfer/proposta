@@ -8,4 +8,5 @@ import java.util.*
 interface PropostaRepository : JpaRepository<Proposta, Long> {
     fun existsByPropostaId(propostaId: UUID): Boolean
     fun existsByDocumento(documento: String): Boolean
+    fun findByPropostaId(propostaId: UUID): Optional<Proposta>
 }

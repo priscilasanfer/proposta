@@ -29,10 +29,10 @@ class ExceptionHandlerInterceptor : MethodInterceptor<Any, Any> {
             val responseObserver = context.parameterValues[1] as StreamObserver<*>
 
             val status = when (e) {
+                is java.lang.NumberFormatException -> Status.INVALID_ARGUMENT.withCause(e).withDescription("Salário não pode ser nulo")
                 is IllegalArgumentException -> Status.INVALID_ARGUMENT.withDescription(e.message)
                 is IllegalStateException -> Status.FAILED_PRECONDITION.withDescription(e.message)
                 is ConstraintViolationException -> Status.INVALID_ARGUMENT.withCause(e).withDescription(e.message)
-                is NumberFormatException -> Status.INVALID_ARGUMENT.withCause(e).withDescription("Salário não pode ser nulo")
                 is DocumentoJaAssociadoAPropostaException -> Status.ALREADY_EXISTS.withCause(e).withDescription(e.message)
                 else -> Status.UNKNOWN.withCause(e).withDescription("Um erro inesperado aconteceu")
             }

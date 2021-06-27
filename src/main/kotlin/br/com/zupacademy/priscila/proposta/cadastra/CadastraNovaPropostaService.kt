@@ -6,8 +6,12 @@ import br.com.zupacademy.priscila.integracao.analise.SolicitaAnaliseFinanceiraRe
 import br.com.zupacademy.priscila.proposta.Proposta
 import br.com.zupacademy.priscila.proposta.PropostaRepository
 import br.com.zupacademy.priscila.proposta.Status
+import io.micronaut.http.HttpStatus
+import io.micronaut.http.client.exceptions.HttpClientException
+import io.micronaut.http.client.exceptions.HttpClientResponseException
 import io.micronaut.validation.Validated
 import org.slf4j.LoggerFactory
+import java.lang.IllegalArgumentException
 import javax.inject.Inject
 import javax.inject.Singleton
 import javax.transaction.Transactional
@@ -29,25 +33,22 @@ class CadastraNovaPropostaService(
         val proposta = novaProposta.toModel()
         repository.save(proposta)
 
-        consultafinceira(proposta)
+        val status = consultafinceira(proposta)
 
-        repository.update(proposta)
+        proposta.atualizaStatus(status)
 
         return proposta
     }
 
-    private fun consultafinceira(proposta: Proposta) {
-        var status: Status
-        try {
+    private fun consultafinceira(proposta: Proposta): Status {
+        return try {
             consultaFinanceira.solicitaAnaliseFinanceira(
                 SolicitaAnaliseFinanceiraRequest.of(proposta)
             )
-            status = Status.ELEGIVEL
+            Status.ELEGIVEL
 
-        } catch (e: Exception) {
-            status = Status.NAO_ELEGIVEL
+        } catch (e: HttpClientResponseException) {
+            Status.NAO_ELEGIVEL
         }
-
-        proposta.atualizaStatus(status)
     }
 }
