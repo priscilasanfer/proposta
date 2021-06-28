@@ -177,7 +177,7 @@ internal class CadsatraNovaPropostaEndpointTest(
                     idProposta = id.toString()
                 )
             )
-        ).thenThrow(HttpClientResponseException::class.java)
+        ).thenThrow(HttpClientResponseException("", HttpResponse.unprocessableEntity<SolicitaAnaliseFinanceiraResponse>()))
 
         val response = grpcClient.cadastra(request)
 

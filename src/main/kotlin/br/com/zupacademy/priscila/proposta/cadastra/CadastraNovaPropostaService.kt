@@ -48,7 +48,10 @@ class CadastraNovaPropostaService(
             Status.ELEGIVEL
 
         } catch (e: HttpClientResponseException) {
-            Status.NAO_ELEGIVEL
+            when (e.status) {
+                HttpStatus.UNPROCESSABLE_ENTITY -> Status.NAO_ELEGIVEL
+                else -> throw IllegalArgumentException("serviço fora do ar")
+            }
         }
     }
 }
