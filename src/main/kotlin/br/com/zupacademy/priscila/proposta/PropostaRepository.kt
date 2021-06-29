@@ -9,4 +9,5 @@ interface PropostaRepository : JpaRepository<Proposta, Long> {
     fun existsByPropostaId(propostaId: UUID): Boolean
     fun existsByDocumento(documento: String): Boolean
     fun findByPropostaId(propostaId: UUID): Optional<Proposta>
+    fun findByStatusAndCartaoIsNull(status: Status): List<Proposta>
 }

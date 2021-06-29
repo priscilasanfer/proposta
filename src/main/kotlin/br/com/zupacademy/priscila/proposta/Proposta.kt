@@ -1,6 +1,8 @@
 package br.com.zupacademy.priscila.proposta
 
+import br.com.zupacademy.priscila.cartao.Cartao
 import java.math.BigDecimal
+import java.time.LocalDateTime
 import java.util.*
 import javax.persistence.*
 
@@ -32,12 +34,17 @@ class Proposta(
     var status: Status = Status.NAO_ANALISADO
 ) {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
 
     val propostaId: UUID = UUID.randomUUID()
 
-    fun atualizaStatus(status: Status){
+    val criadaEm = LocalDateTime.now()
+
+    @OneToOne(cascade = [CascadeType.MERGE])
+    var cartao: Cartao? = null
+
+    fun atualizaStatus(status: Status) {
         this.status = status
     }
 }

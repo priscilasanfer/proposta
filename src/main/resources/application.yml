@@ -33,3 +33,4 @@ jpa.default.properties.hibernate.show_sql: true
 jpa.default.properties.hibernate.format_sql: true
 
 analise.url: ${ANALISE_URL:`http://localhost:9999/api/solicitacao`}
+cartao.url: ${CARTAO_URL:`http://localhost:8888/api/cartoes`}
