@@ -3,7 +3,7 @@ package br.com.zupacademy.priscila.eventos
 import br.com.zupacademy.priscila.cartao.Cartao
 import br.com.zupacademy.priscila.integracao.cartao.CartaoResource
 import br.com.zupacademy.priscila.proposta.PropostaRepository
-import io.micronaut.runtime.event.annotation.EventListener
+import io.micronaut.context.event.ApplicationEventListener
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -12,12 +12,12 @@ import javax.inject.Singleton
 class PropostaSemCartaoListener(
     @Inject val cartaoResource: CartaoResource,
     @Inject val repository: PropostaRepository
-) {
+) : ApplicationEventListener<PropostaSemCartaoEvent> {
+
     private val logger = LoggerFactory.getLogger((this::class.java))
 
-    @EventListener
-    internal fun novoCartaoParaPropostaElegivel(event: PropostaSemCartaoEvent) {
-        val proposta = event.proposta
+    override fun onApplicationEvent(event: PropostaSemCartaoEvent?) {
+        val proposta = event!!.proposta
 
         try {
             val solicitaCartao = cartaoResource.solicitaCartao(proposta.propostaId.toString())
