@@ -9,8 +9,10 @@ package br.com.zupacademy.priscila;
 
 service PropostaService {
   rpc cadastra (NovaPropostaRequest) returns (NovaPropostaResponse) {}
-}
 
+  rpc consulta (ConsultaRequest) returns (ConsultaResponse){}
+}
+// Cadastra
 message NovaPropostaRequest {
   string documento = 1;
   string email = 2;
@@ -23,4 +25,23 @@ message NovaPropostaResponse {
   string propostaId = 1;
   string email = 2;
 
+}
+
+// Consulta
+
+message ConsultaRequest{
+  string propostaId = 1;
+}
+
+message ConsultaResponse{
+  message Cartao {
+    string numero = 1;
+    string limite = 2;
+  }
+
+  string email = 1;
+  string nome = 2;
+  string propostaId = 3;
+  string status =4;
+  optional Cartao cartao = 5;
 }

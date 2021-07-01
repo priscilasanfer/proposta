@@ -34,6 +34,7 @@ class ExceptionHandlerInterceptor : MethodInterceptor<Any, Any> {
                 is IllegalStateException -> Status.FAILED_PRECONDITION.withDescription(e.message)
                 is ConstraintViolationException -> Status.INVALID_ARGUMENT.withCause(e).withDescription(e.message)
                 is DocumentoJaAssociadoAPropostaException -> Status.ALREADY_EXISTS.withCause(e).withDescription(e.message)
+                is PropostaNaoEncontradaException -> Status.NOT_FOUND.withCause(e).withDescription(e.message)
                 else -> Status.UNKNOWN.withCause(e).withDescription("Um erro inesperado aconteceu")
             }
 
