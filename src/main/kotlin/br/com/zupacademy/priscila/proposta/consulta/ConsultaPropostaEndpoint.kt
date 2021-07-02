@@ -1,5 +1,6 @@
 package br.com.zupacademy.priscila.proposta.consulta
 
+import br.com.zupacademy.priscila.ConsultaPropostaServiceGrpc
 import br.com.zupacademy.priscila.ConsultaRequest
 import br.com.zupacademy.priscila.ConsultaResponse
 import br.com.zupacademy.priscila.PropostaServiceGrpc
@@ -17,7 +18,7 @@ import javax.inject.Singleton
 @ErrorHandler
 class ConsultaPropostaEndpoint(
     @Inject val repository: PropostaRepository
-) : PropostaServiceGrpc.PropostaServiceImplBase() {
+) : ConsultaPropostaServiceGrpc.ConsultaPropostaServiceImplBase() {
 
     override fun consulta(
         request: ConsultaRequest,
@@ -38,21 +39,29 @@ class ConsultaPropostaEndpoint(
 
         val proposta = propostaRetornada.get()
 
-        //TODO Ver como buildar o response quando a proposta nao for elegive
-        val response = ConsultaResponse.newBuilder()
-            .setEmail(proposta.email)
-            .setNome(proposta.nome)
-            .setPropostaId(proposta.propostaId.toString())
-            .setCartao(
-                ConsultaResponse.Cartao.newBuilder()
-                    .setNumero(proposta.cartao!!.numero)
-                    .setLimite(proposta.cartao!!.limite.toString())
-                    .build()
-            )
-            .build()
+        val response = if (proposta.cartao == null) {
+            ConsultaResponse.newBuilder()
+                .setEmail(proposta.email)
+                .setNome(proposta.nome)
+                .setPropostaId(proposta.propostaId.toString())
+                .setStatus(proposta.status.toString())
+                .build()
+        } else {
+            ConsultaResponse.newBuilder()
+                .setEmail(proposta.email)
+                .setNome(proposta.nome)
+                .setPropostaId(proposta.propostaId.toString())
+                .setStatus(proposta.status.toString())
+                .setCartao(
+                    ConsultaResponse.Cartao.newBuilder()
+                        .setNumero(proposta.cartao!!.numero)
+                        .setLimite(proposta.cartao!!.limite.toString())
+                        .build()
+                )
+                .build()
+        }
 
         responseObserver.onNext(response)
         responseObserver.onCompleted()
-
     }
 }
